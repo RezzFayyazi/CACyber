@@ -1,3 +1,3 @@
 # CACyber
-This project aims to understand the context of cybersecurity vylnerability descriptions through self-supervised learning. 
+This project aims to understand the context of cybersecurity vulnerability descriptions through self-supervised learning. 
 
