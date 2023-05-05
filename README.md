@@ -19,4 +19,12 @@ python metrics.py data_file_path.csv dictionary_file_path.csv --metric metric_na
 The "eval.ipynb" notebook is the consolidated code to play around with different metrics and evaluating your concatenated dataset.
 
 ## Additional
-The "eval_supervised_models.py" file are to evaluate the classification performance of cybersecurity-specialized sentences to measure the accuracy of classifiers in distinguishing the cybersecurity vs. generic sentences. 
+The "eval_supervised_models.py" file is to evaluate the classification performance of cybersecurity-specialized sentences to measure the accuracy of classifiers in distinguishing the cybersecurity vs. generic sentences. To run:
+```python
+python script_name.py model_path data_path
+```
+
+You can also train your classifier by passing the arguments. Here is the way to run it:
+```python
+python train.py --train_data_path /path/to/training/data --output_path /path/to/save/trained/model --batch_size 64 --learning_rate 0.0001 --num_epochs 20 --print_freq 50
+```
