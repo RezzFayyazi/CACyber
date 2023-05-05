@@ -19,5 +19,5 @@ python metrics.py data_file_path.csv dictionary_file_path.csv --metric metric_na
 
 
 
-The "eval.ipynb" notebook is the consolidated code to play around with different metrics and evaluating your concatenated dataset. This file also contains some more metrics that were tried. 
+The "eval.ipynb" notebook is the consolidated code to play around with different metrics and evaluating your concatenated dataset.
 
