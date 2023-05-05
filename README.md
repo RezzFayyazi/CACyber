@@ -16,8 +16,7 @@ After you have your dictionary, you can now use the metrics to evaluate the perf
 ```python
 python metrics.py data_file_path.csv dictionary_file_path.csv --metric metric_name --normalize normalization_type
 ```
-
-
-
 The "eval.ipynb" notebook is the consolidated code to play around with different metrics and evaluating your concatenated dataset.
 
+## Additional
+The "eval_supervised_models.py" file are to evaluate the classification performance of cybersecurity-specialized sentences to measure the accuracy of classifiers in distinguishing the cybersecurity vs. generic sentences. 
