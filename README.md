@@ -11,10 +11,10 @@ To be able to use the metrics, you need a domain-specific dictionary. You can ru
 python cybersec_vocabulary.py --dataset_Q <DATASET_NAME> --path_Q <DATASET_PATH> --dataset_Q_prime <DATASET_NAME> --path_Q_prime <DATASET_PATH>
 ```
 
-After you have your dictionary, you can now use the metrics to evaluate the performance of cybersecurity sentences. Here is the way to run it:
+After you have your dictionary, you can now use the metrics to evaluate the performance of cybersecurity sentences with the "main.py" file. Here is the way to run it:
 
 ```python
-python metrics.py data_file_path.csv dictionary_file_path.csv --metric metric_name --normalize normalization_type
+python main.py data_file_path.csv dictionary_file_path.csv --metric metric_name --normalize normalization_type
 ```
 The "eval.ipynb" notebook is the consolidated code to play around with different metrics and evaluating your concatenated dataset.
 
