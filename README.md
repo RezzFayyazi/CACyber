@@ -1,3 +1,3 @@
 # CACyber
-Contextual Understanding of Cybersecurity Exploits/Vulnerability Description through Self-Supervised Learning
+This project aims to understand the context of cybersecurity vulnerability descriptions through self-supervised learning. 
 
