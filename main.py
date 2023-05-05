@@ -48,7 +48,7 @@ def calculate_frequency(sentences, cybersecurity_words):
 def surprisal_cybersecurity_words(sentences, cybersecurity_words, model_name='bert-base-uncased'):
     # load the language model
     tokenizer = transformers.AutoTokenizer.from_pretrained(model_name)
-    model = transformers.AutoModelForMaskedLM.from_pretrained(model_name, is_decoder=True)  
+    model = transformers.AutoModelForMaskedLM.from_pretrained(model_name)  
 
     top_words_dict = {}
     avg_surprisal_sentences = []
@@ -57,17 +57,18 @@ def surprisal_cybersecurity_words(sentences, cybersecurity_words, model_name='be
         cyber_words = [] 
         count = 0
         tokens = tokenizer.encode(sentence, return_tensors='pt')  # encode the sentence into a tensor of tokens
-        subwords = tokenizer.convert_ids_to_tokens(tokens[0])[1:-1]  # convert the tokens to subwords
         logits = model(tokens).logits  # get the logits from the model
         probs = torch.softmax(logits[0, :-1], dim=1)  # calculate the probabilities of the tokens
         
-        for i, subword in enumerate(subwords):
-            # loop through each subword (excluding the [CLS] and [SEP] tokens)
-            if any(word in subword.lower() for word in cybersecurity_words):  # if the subword contains a cybersecurity word
+        for i, token in enumerate(tokens[0, 1:]):
+            word = tokenizer.decode(token.unsqueeze(0)).lower()  # decode the token and convert to lowercase
+            if word in cybersecurity_words:  # if the token is a cybersecurity word
                 count += 1
-                surprisal = -torch.log2(probs[i, tokens[0][i+1]]).item()  # calculate the surprisal value of the subword
+                surprisal = -torch.log2(probs[i, token]).item()  # calculate the surprisal value of the token
                 surprisal_sentences.append(surprisal)  # add the surprisal value to the list
-                cyber_words.append((surprisal, subword))  # add the subword and its surprisal value to the list
+                cyber_words.append((surprisal, word))  # add the word and its surprisal value to the list
+            else:
+                continue  # if the token is not a cybersecurity word, skip it
         
         if count > 0:
             avg_surprisal = sum(surprisal_sentences)/count 
@@ -77,7 +78,8 @@ def surprisal_cybersecurity_words(sentences, cybersecurity_words, model_name='be
         avg_surprisal_sentences.append(avg_surprisal)    
         top_words_dict[sentence] = cyber_words  
 
-    return top_words_dict, avg_surprisal_sentences
+    return top_words_dict, avg_surprisal_sentences 
+
 
 
 def get_sentences_with_higher_rank(dataset, dictionary, model_roberta, model_securebert, tokenizer_roberta, tokenizer_securebert):
@@ -105,7 +107,7 @@ def get_sentences_with_higher_rank(dataset, dictionary, model_roberta, model_sec
         # If no words in the sentence are in the dictionary, skip to the next sentence
         if len(masked_indices) == 0:
             l1_distances.append(0)
-            print(sentence)
+            #print(sentence)
             continue
 
         # Randomly sample up to 3 masked indices or all masked indices if there are fewer than 3
@@ -159,12 +161,17 @@ def get_sentences_with_higher_rank(dataset, dictionary, model_roberta, model_sec
         # 3. Compute the L1 distance between the Roberta and SecureBERT ranks for the better words
             l1_distance = 0
             for i in better_words:
-                l1_distance += abs(gt_ranks[i][0] - gt_ranks[i][1])
+                #if gt_ranks[i][0] < 500:
+                #l1_distance += abs(gt_ranks[i][0] - gt_ranks[i][1])
+                l1_distance += abs(np.log(gt_ranks[i][0]) - np.log(gt_ranks[i][1]))
+
             avg_l1_distance = l1_distance / len(better_words)
-            # 4. Append the L1 distance to the list of distances
+            # 4. Append the log l1 distance to the list of distances
             l1_distances.append(avg_l1_distance)
 
     return l1_distances
+
+
 
 def plot_histograms(data, title):
     """
