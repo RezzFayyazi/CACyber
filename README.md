@@ -1,4 +1,4 @@
-# Contextual Understanding of Cybersecurity Exploits/Vulnerability Descriptions through Self-supervised Learning
+# Contextual Understanding of Cybersecurity Exploits/Vulnerability Descriptions through Self-supervised Metrics
 This project aims to understand the context of cybersecurity descriptions by ranking the importance of each description with self-supervised metrics. There are three metrics that were tested in this project. These metrics are to measure the degree of technicality of cybersecurity-specialized sentences.
 
 1) Domain-sepcific word frequency: The percentage of the occurrence of cybersecurity words in the sentences
